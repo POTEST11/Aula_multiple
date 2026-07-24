@@ -1,0 +1,231 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(245, 242, 235, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.navbar.scrolled {
+  background: rgba(245, 242, 235, 0.95);
+  border-bottom-color: var(--border);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .navbar {
+    background: rgba(15, 15, 20, 0.7);
+  }
+
+  :global(:root:not([data-theme="light"])) .navbar.scrolled {
+    background: rgba(15, 15, 20, 0.95);
+  }
+}
+
+:global(:root[data-theme="dark"]) .navbar {
+  background: rgba(15, 15, 20, 0.7);
+}
+
+:global(:root[data-theme="dark"]) .navbar.scrolled {
+  background: rgba(15, 15, 20, 0.95);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: var(--primary);
+}
+
+.centerLinks {
+  display: flex;
+  gap: 32px;
+}
+
+.navLink {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.navLink:hover {
+  color: var(--primary);
+}
+
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btnGhost {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 8px 18px;
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.btnGhost:hover {
+  background: var(--surface);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btnPrimary {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: var(--btn-radius);
+  background: var(--primary);
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btnPrimary:hover {
+  background: var(--primary-hover);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.bar.barOpen:first-child {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.bar.barOpen:nth-child(2) {
+  opacity: 0;
+}
+
+.bar.barOpen:last-child {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile menu */
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  padding: 16px 24px 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.mobileLink {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition);
+}
+
+.mobileLink:hover {
+  color: var(--primary);
+}
+
+.mobileDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .centerLinks {
+    display: none;
+  }
+
+  .rightActions {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+/* Theme toggle */
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 0;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.themeToggle:hover {
+  background: var(--surface);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.mobileThemeToggle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  padding: 12px 0;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.mobileThemeToggle:hover {
+  color: var(--primary);
+}

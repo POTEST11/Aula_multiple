@@ -1,0 +1,22 @@
+.layout {
+  display: flex;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+  background: var(--bg);
+}
+
+.contentExpanded {
+  /* Smooth transition when sidebar collapses */
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px 16px;
+  }
+}

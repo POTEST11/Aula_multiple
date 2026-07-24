@@ -1,0 +1,131 @@
+/* ===== Design System: Aula Múltiple ===== */
+
+:root {
+  /* Light Mode Palette */
+  --bg: #F5F2EB;
+  --surface: #FFFFFF;
+  --text-primary: #2D2D2D;
+  --text-secondary: #5A5A5A;
+  --sidebar-bg: #2D2D3A;
+  --sidebar-text: #E8E8E8;
+  --primary: #2BAB6F;
+  --primary-hover: #239B60;
+  --secondary: #7B5EA7;
+  --accent-blue: #4A8FE7;
+  --accent-orange: #F07C4D;
+  --accent-pink: #E85D9B;
+  --accent-yellow: #F5B731;
+  --border: #E5E0D8;
+  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+  /* Typography */
+  --font-heading: "Cause", cursive;
+  --font-body: "Readex Pro", sans-serif;
+
+  /* Tokens */
+  --card-radius: 16px;
+  --btn-radius: 12px;
+  --btn-radius-pill: 50px;
+  --transition: 0.2s ease;
+
+  /* Apply defaults */
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg);
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F0F14;
+    --surface: #1A1A24;
+    --text-primary: #F0F0F0;
+    --text-secondary: #A0A0B0;
+    --sidebar-bg: #0A0A10;
+    --sidebar-text: #D0D0D8;
+    --primary: #FF4D9B;
+    --primary-hover: #E6438A;
+    --secondary: #3ECFC0;
+    --accent-blue: #4DB8D4;
+    --accent-orange: #F5E6A0;
+    --accent-pink: #F5A0C8;
+    --accent-yellow: #B84DFF;
+    --border: #2A2A38;
+    --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0F0F14;
+  --surface: #1A1A24;
+  --text-primary: #F0F0F0;
+  --text-secondary: #A0A0B0;
+  --sidebar-bg: #0A0A10;
+  --sidebar-text: #D0D0D8;
+  --primary: #FF4D9B;
+  --primary-hover: #E6438A;
+  --secondary: #3ECFC0;
+  --accent-blue: #4DB8D4;
+  --accent-orange: #F5E6A0;
+  --accent-pink: #F5A0C8;
+  --accent-yellow: #B84DFF;
+  --border: #2A2A38;
+  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Reset ===== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

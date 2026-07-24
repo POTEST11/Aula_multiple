@@ -6,7 +6,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
 
 ## Tasks
 
-- [ ] 1. Configuración base del proyecto
+- [x] 1. Configuración base del proyecto
   - [x] 1.1 Crear estructura raíz del proyecto y archivos de configuración Docker
     - Crear `docker-compose.yml` con servicios `backend` y `db` (pgvector/pgvector:pg16)
     - Crear `backend/Dockerfile` con imagen Python 3.11, instalación de dependencias
@@ -14,41 +14,41 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Crear `.gitignore` para Python, Node, Docker, .env
     - _Requisitos: 9.1, 9.2, 9.3, 9.4_
 
-  - [ ] 1.2 Configurar entorno Conda y dependencias Python del backend
+  - [x] 1.2 Configurar entorno Conda y dependencias Python del backend
     - Crear `backend/environment.yml` (Conda) con Python 3.11 y dependencias core
     - Crear `backend/requirements.txt` con: fastapi, uvicorn, sqlalchemy[asyncio], asyncpg, alembic, pydantic-settings, python-jose[cryptography], passlib[bcrypt], langgraph, langchain-core, pgvector, httpx, pdfplumber, hypothesis, pytest, pytest-asyncio
     - _Requisitos: 9.1_
 
-  - [ ] 1.3 Configurar módulo de settings con pydantic-settings
+  - [x] 1.3 Configurar módulo de settings con pydantic-settings
     - Crear `backend/app/__init__.py`
     - Crear `backend/app/config.py` con clase Settings que lea variables de entorno: DATABASE_URL, LLM_API_KEY, LLM_PROVIDER, EMBEDDING_API_KEY, JWT_SECRET, JWT_EXPIRATION_MINUTES, LLM_TIMEOUT_SECONDS (default 60)
     - _Requisitos: 9.4, 8.5_
 
-  - [ ] 1.4 Configurar Alembic y migración inicial de esquema
+  - [x] 1.4 Configurar Alembic y migración inicial de esquema
     - Inicializar Alembic en `backend/alembic/`
     - Configurar `alembic.ini` para usar DATABASE_URL del entorno
     - Crear migración inicial con extensión pgvector y todas las tablas: users, classrooms, subjects, activities, activity_variants, variant_standards, curriculum_embeddings
     - _Requisitos: 9.3_
 
-- [ ] 2. Checkpoint - Verificar configuración base
+- [x] 2. Checkpoint - Verificar configuración base
   - Ejecutar `docker compose up` y confirmar que los contenedores backend y db se levantan correctamente, las migraciones se aplican y pgvector está habilitado. Preguntar al usuario si surgen dudas.
 
 - [ ] 3. Frontend — Estructura y configuración inicial
-  - [ ] 3.1 Inicializar proyecto React + TypeScript con Vite
+  - [x] 3.1 Inicializar proyecto React + TypeScript con Vite
     - Crear proyecto en `frontend/` con Vite + React + TypeScript
-    - Instalar dependencias: react-router-dom, axios, tailwindcss, @headlessui/react
-    - Configurar Tailwind CSS con soporte responsive (min 320px)
+    - Instalar dependencias: react-router-dom, axios
+    - Usar CSS Modules para estilos (soporte nativo de Vite, sin configuración extra)
     - Crear `frontend/Dockerfile` para build de producción con nginx
     - _Requisitos: 6.5_
 
-  - [ ] 3.2 Definir tipos TypeScript del dominio
+  - [x] 3.2 Definir tipos TypeScript del dominio
     - Crear `frontend/src/types/activity.ts`: interfaces ActivityOutput, VariantOutput, CurriculumStandard, GenerateRequest
     - Crear `frontend/src/types/classroom.ts`: interfaces Classroom, ClassroomCreate, ClassroomUpdate
     - Crear `frontend/src/types/subject.ts`: interfaces Subject, SubjectCreate
     - Crear `frontend/src/types/auth.ts`: interfaces LoginRequest, RegisterRequest, TokenResponse, User
     - _Requisitos: 6.1, 6.3_
 
-  - [ ] 3.3 Crear servicios API (capa de comunicación con backend)
+  - [x] 3.3 Crear servicios API (capa de comunicación con backend)
     - Crear `frontend/src/services/api.ts`: instancia axios con baseURL, interceptor para JWT, manejo de errores
     - Crear `frontend/src/services/authService.ts`: login, register, logout
     - Crear `frontend/src/services/activityService.ts`: generateActivity, getHistory, getActivity, deleteActivity, searchHistory
@@ -56,41 +56,61 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Crear `frontend/src/services/subjectService.ts`: CRUD de materias
     - _Requisitos: 6.1, 8.1_
 
-  - [ ] 3.4 Implementar layout principal y navegación
-    - Crear `frontend/src/components/Layout.tsx` con barra de navegación principal
-    - Implementar navegación entre vistas: Generación, Historial, Gestión (Clases/Materias)
-    - Configurar React Router con rutas protegidas (requieren auth)
+  - [x] 3.4 Implementar layout principal, navegación y design system
+    - Configurar design system: paletas light (crema, verde, púrpura, naranja, azul) y dark (negro, magenta, cyan, rosa, amarillo)
+    - Agregar Google Fonts: Cause (headings) + Readex Pro (body) en index.html
+    - Crear `frontend/src/components/common/Navbar.tsx`: navbar público sticky con glassmorphism, logo placeholder, anclas a secciones del homepage, botones Iniciar sesión / Registrarse / Dashboard
+    - Crear `frontend/src/components/Layout/DashboardLayout.tsx`: layout full-viewport con sidebar + área principal (Outlet)
+    - Crear `frontend/src/components/Layout/Sidebar.tsx`: sidebar oscuro estilo Claude con username, botón "+ Nueva clase", nav con SVG icons (Generar, Historial, Clases, Materias), sección "Mis Clases", sección "Contenido multimedia", botón collapse
+    - Crear `frontend/src/components/common/ProtectedRoute.tsx`: verifica token en localStorage, redirige a /login
+    - Crear `frontend/src/pages/HomePage.tsx`: homepage con 6 secciones (Hero, Características, Cómo funciona, CTA final, Footer) con placeholders para ilustraciones
+    - Configurar React Router: / (home), /login, /register, /dashboard/* (protegido)
     - Diseño responsivo mobile-first (min 320px)
     - _Requisitos: 6.4, 6.5_
 
-  - [ ] 3.5 Implementar páginas de autenticación (Login/Registro)
-    - Crear `frontend/src/pages/LoginPage.tsx` con formulario email + contraseña
+  - [x] 3.5 Implementar páginas de autenticación (Login/Registro)
+    - Crear `frontend/src/pages/LoginPage.tsx` con formulario email + contraseña, card centrado con design system (Cause para título, Readex Pro para campos)
     - Crear `frontend/src/pages/RegisterPage.tsx` con formulario nombre + email + contraseña
-    - Crear hook `frontend/src/hooks/useAuth.ts` para gestión del token JWT en localStorage
-    - Implementar redirección post-login y protección de rutas
+    - Crear hook `frontend/src/hooks/useAuth.ts` para gestión del token JWT en localStorage, estado de loading, errores
+    - Implementar redirección post-login a /dashboard/classes
+    - Estilos: inputs con border-radius 12px, botón submit primario pill, link a la otra página de auth
     - _Requisitos: 7.1, 7.2_
 
-  - [ ] 3.6 Implementar página de generación de actividades
-    - Crear `frontend/src/pages/GeneratePage.tsx` con formulario: tema (text), clase (select con grados), materia (select), recursos disponibles (tags opcionales)
-    - Implementar indicador de progreso que muestre el nodo actual del grafo en ejecución
-    - Implementar presentación de resultado: Actividad Ancla + Variantes expandibles/colapsables por grado
-    - _Requisitos: 6.1, 6.2, 6.3_
+  - [x] 3.6 Implementar vista de Clases (cards tipo Projects de Claude)
+    - Crear `frontend/src/pages/dashboard/ClassesPage.tsx`: grid de cards tipo "Projects" de Claude
+    - Cada card muestra: nombre de clase, grados, número de actividades, fecha última actividad
+    - Botón "Nueva clase" abre modal/formulario inline (nombre + selección de grados 2-6 + materia asociada)
+    - Cards con border-radius 16px, sombra suave, acento de color por clase
+    - Implementar edición y eliminación con confirmación
+    - Hacer clic en un card navega a `/dashboard/class/:id`
+    - _Requisitos: 5.1, 5.3, 5.4, 5.5, 6.1_
 
-  - [ ] 3.7 Implementar página de historial
-    - Crear `frontend/src/pages/HistoryPage.tsx` con lista de actividades ordenadas por fecha descendente
-    - Implementar filtros por materia y clase
-    - Implementar búsqueda por palabra clave
-    - Implementar vista de detalle de actividad (Ancla + Variantes + Estándares)
+  - [x] 3.7 Implementar vista de Clase individual (chat + panel lateral)
+    - Crear `frontend/src/pages/dashboard/ClassDetailPage.tsx`: layout tipo "Perfil profesional" de Claude
+    - Panel central: historial de actividades generadas para esta clase (lista con título + fecha, tipo "Recents" de Claude)
+    - Input de chat en la parte inferior (estilo Claude): el docente escribe tema/instrucción y envía para generar
+    - Indicador de "thinking/typing" mientras el agente procesa (dots animados)
+    - Resultado de generación como burbuja/card con formato rico: actividad ancla + variantes colapsables por grado
+    - Panel lateral derecho: sección "Contenido multimedia" con thumbnails de documentos/archivos asociados a la clase
+    - _Requisitos: 6.1, 6.2, 6.3, 4.2, 4.4_
+
+  - [x] 3.8 Implementar página de Historial global
+    - Crear `frontend/src/pages/dashboard/HistoryPage.tsx`: lista de todas las actividades del docente ordenadas por fecha desc
+    - Implementar filtros por materia y clase (selectores en top bar)
+    - Implementar búsqueda por palabra clave (input con ícono search)
+    - Cada item muestra: tema, clase, materia, fecha
+    - Clic en item navega a la actividad dentro de su clase o abre modal de detalle
     - Implementar eliminación con confirmación
     - _Requisitos: 4.2, 4.3, 4.4, 4.5_
 
-  - [ ] 3.8 Implementar páginas de gestión de Clases y Materias
-    - Crear `frontend/src/pages/ClassesPage.tsx`: listar, crear (nombre + grados 2-6), editar, eliminar con confirmación
-    - Crear `frontend/src/pages/SubjectsPage.tsx`: listar, crear (nombre), eliminar con confirmación
-    - Validar en frontend que grados sean 2-6 elementos
-    - _Requisitos: 5.1, 5.2, 5.3, 5.4, 5.5_
+  - [ ] 3.9 Implementar página de Materias
+    - Crear `frontend/src/pages/dashboard/SubjectsPage.tsx`: lista de materias del docente
+    - Formulario inline para crear nueva materia (nombre)
+    - Eliminar con confirmación
+    - Diseño con cards o lista simple acorde al design system
+    - _Requisitos: 5.2, 5.5_
 
-  - [ ] 3.9 Implementar detección offline y manejo de errores en UI
+  - [ ] 3.10 Implementar detección offline y manejo de errores en UI
     - Crear componente `OfflineBanner.tsx` que detecte pérdida de conexión y muestre mensaje informativo
     - Implementar manejo de errores HTTP globales (401 → logout, 422 → mostrar errores de campo, 504 → mensaje timeout IA)
     - _Requisitos: 6.6, 8.2, 8.5_
@@ -286,6 +306,10 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
 - Los tests unitarios validan ejemplos específicos y casos edge
 - El frontend se desarrolla primero para tener UI funcional que luego se conecta al backend
 - El backend se construye módulo a módulo: modelos → auth → CRUD → RAG → agente → integración
+- **Design System**: Paleta light (crema #F5F2EB, verde #2BAB6F, púrpura #7B5EA7, naranja #F07C4D), dark (negro #0F0F14, magenta #FF4D9B, cyan #3ECFC0). Fuentes: Cause (headings/juguetona) + Readex Pro (body). Cards 16px radius, sombras suaves.
+- **UI Pattern**: Dashboard con sidebar oscuro estilo Claude/ChatGPT. Clases = Projects. Chat puro para generación. Panel multimedia lateral.
+- **Ilustraciones**: Se integrarán en una fase posterior; las tareas dejan placeholders descriptivos.
+- La ruta `/dashboard/class/:id` es la vista individual de clase con chat + panel multimedia
 
 ## Task Dependency Graph
 
@@ -298,22 +322,23 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     { "id": 3, "tasks": ["3.1"] },
     { "id": 4, "tasks": ["3.2", "3.3"] },
     { "id": 5, "tasks": ["3.4", "3.5"] },
-    { "id": 6, "tasks": ["3.6", "3.7", "3.8"] },
-    { "id": 7, "tasks": ["3.9"] },
-    { "id": 8, "tasks": ["5.1"] },
-    { "id": 9, "tasks": ["5.2", "5.5"] },
-    { "id": 10, "tasks": ["5.3", "5.4", "5.6", "5.7"] },
-    { "id": 11, "tasks": ["6.1", "6.2"] },
-    { "id": 12, "tasks": ["6.3", "6.4", "7.1"] },
-    { "id": 13, "tasks": ["7.2"] },
-    { "id": 14, "tasks": ["9.1"] },
-    { "id": 15, "tasks": ["9.2", "10.1"] },
-    { "id": 16, "tasks": ["9.3", "10.2"] },
-    { "id": 17, "tasks": ["10.3", "10.4", "10.5", "10.6"] },
-    { "id": 18, "tasks": ["10.7", "11.1"] },
-    { "id": 19, "tasks": ["11.2", "13.1"] },
-    { "id": 20, "tasks": ["13.2", "14.1"] },
-    { "id": 21, "tasks": ["14.2"] }
+    { "id": 6, "tasks": ["3.6", "3.8", "3.9"] },
+    { "id": 7, "tasks": ["3.7"] },
+    { "id": 8, "tasks": ["3.10"] },
+    { "id": 9, "tasks": ["5.1"] },
+    { "id": 10, "tasks": ["5.2", "5.5"] },
+    { "id": 11, "tasks": ["5.3", "5.4", "5.6", "5.7"] },
+    { "id": 12, "tasks": ["6.1", "6.2"] },
+    { "id": 13, "tasks": ["6.3", "6.4", "7.1"] },
+    { "id": 14, "tasks": ["7.2"] },
+    { "id": 15, "tasks": ["9.1"] },
+    { "id": 16, "tasks": ["9.2", "10.1"] },
+    { "id": 17, "tasks": ["9.3", "10.2"] },
+    { "id": 18, "tasks": ["10.3", "10.4", "10.5", "10.6"] },
+    { "id": 19, "tasks": ["10.7", "11.1"] },
+    { "id": 20, "tasks": ["11.2", "13.1"] },
+    { "id": 21, "tasks": ["13.2", "14.1"] },
+    { "id": 22, "tasks": ["14.2"] }
   ]
 }
 ```
