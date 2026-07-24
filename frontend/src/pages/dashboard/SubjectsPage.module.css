@@ -1,0 +1,289 @@
+/* SubjectsPage — Lista de materias del docente */
+
+.page {
+  max-width: 1100px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.newBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius-pill);
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background var(--transition);
+}
+
+.newBtn:hover {
+  background: var(--primary-hover);
+}
+
+.newBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* List */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card item */
+.card {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: box-shadow var(--transition), transform var(--transition);
+  border-left: 4px solid var(--secondary);
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cardName {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardDate {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.cardActions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 6px;
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn:hover {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.iconBtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* States */
+.loading,
+.emptyState,
+.errorState {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.emptyState p {
+  margin-bottom: 16px;
+}
+
+.errorState {
+  color: var(--accent-orange);
+}
+
+.retryBtn {
+  margin-top: 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.retryBtn:hover {
+  background: var(--primary-hover);
+}
+
+/* Inline form */
+.inlineForm {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.inlineInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--btn-radius);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: var(--surface);
+  color: var(--text-primary);
+  transition: border-color var(--transition);
+}
+
+.inlineInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.submitBtn {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+
+.submitBtn:hover {
+  background: var(--primary-hover);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelFormBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--btn-radius);
+  padding: 10px 16px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.cancelFormBtn:hover {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+/* Confirm dialog */
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 20px;
+}
+
+.confirmDialog {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.confirmDialog p {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.confirmActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--btn-radius);
+  padding: 9px 18px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all var(--transition);
+}
+
+.cancelBtn:hover {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.deleteBtn {
+  background: #e53e3e;
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: 9px 18px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background var(--transition);
+}
+
+.deleteBtn:hover {
+  background: #c53030;
+}

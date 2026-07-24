@@ -1,5 +1,8 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { logout } from '../../services/authService';
+import { getClassrooms } from '../../services/classroomService';
+import type { Classroom } from '../../types/classroom';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
@@ -9,6 +12,13 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
+  const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+
+  useEffect(() => {
+    getClassrooms()
+      .then((data) => setClassrooms(Array.isArray(data) ? data : []))
+      .catch(() => setClassrooms([]));
+  }, []);
 
   function handleLogout() {
     logout();
@@ -29,9 +39,9 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
         {/* User area */}
         <div className={styles.userArea}>
-          <div className={styles.avatar}>U</div>
+          <div className={styles.avatar}>M</div>
           <div className={styles.userInfo}>
-            <span className={styles.username}>Usuario</span>
+            <span className={styles.username}>María González</span>
           </div>
           <button
             className={styles.settingsBtn}
@@ -48,7 +58,12 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
         {/* New class button */}
         <div className={styles.newBtnWrap}>
-          <button className={styles.newBtn}>+ Nueva clase</button>
+          <button
+            className={styles.newBtn}
+            onClick={() => navigate('/dashboard/classes')}
+          >
+            + Nueva clase
+          </button>
         </div>
 
         <div className={styles.divider} />
@@ -115,14 +130,29 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {/* My Classes section */}
         <div className={styles.sectionLabel}>Mis Clases</div>
         <div className={styles.classList}>
-          <div className={`${styles.classItem} ${styles.classItemActive}`}>
-            <span className={styles.classDot} />
-            3° Primaria A
-          </div>
-          <div className={styles.classItem}>
-            <span className={styles.classDot} />
-            5° Primaria B
-          </div>
+          {classrooms.length === 0 && (
+            <div className={styles.classItem} style={{ opacity: 0.5, fontSize: '0.8rem' }}>
+              Sin clases aún
+            </div>
+          )}
+          {classrooms.map((c) => (
+            <div
+              key={c.id}
+              className={styles.classItem}
+              onClick={() => navigate(`/dashboard/class/${c.id}`)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  navigate(`/dashboard/class/${c.id}`);
+                }
+              }}
+            >
+              <span className={styles.classDot} />
+              {c.name}
+            </div>
+          ))}
         </div>
 
         <div className={styles.divider} />

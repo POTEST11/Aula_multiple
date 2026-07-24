@@ -9,11 +9,14 @@ import ClassesPage from './pages/dashboard/ClassesPage';
 import ClassDetailPage from './pages/dashboard/ClassDetailPage';
 import SubjectsPage from './pages/dashboard/SubjectsPage';
 import HistoryPage from './pages/dashboard/HistoryPage';
+import OfflineBanner from './components/common/OfflineBanner';
 import './App.css';
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <OfflineBanner />
+      <Routes>
       {/* Public routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -34,5 +37,6 @@ export default function App() {
       {/* Catch-all: redirect to home */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </>
   );
 }
