@@ -118,8 +118,8 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
 - [x] 4. Checkpoint - Verificar frontend
   - Verificar que el frontend compila sin errores, las rutas navegan correctamente y los componentes renderizan. Preguntar al usuario si surgen dudas.
 
-- [ ] 5. Backend — Modelos de datos y módulo de autenticación
-  - [-] 5.1 Crear modelos SQLAlchemy
+- [x] 5. Backend — Modelos de datos y módulo de autenticación
+  - [x] 5.1 Crear modelos SQLAlchemy
     - Crear `backend/app/models/base.py` con Base declarativa
     - Crear `backend/app/models/user.py`: User (id, email, password_hash, name, created_at, updated_at)
     - Crear `backend/app/models/classroom.py`: Classroom (id, user_id FK, name, grades ARRAY, timestamps)
@@ -128,7 +128,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Crear `backend/app/models/curriculum_embedding.py`: CurriculumEmbedding con Vector(1536) y content_hash
     - _Requisitos: 3.1, 4.1, 5.1, 5.2, 10.3_
 
-  - [~] 5.2 Crear schemas Pydantic de request/response
+  - [x] 5.2 Crear schemas Pydantic de request/response
     - Crear `backend/app/schemas/auth.py`: RegisterRequest (email regex, password min 8), LoginRequest, TokenResponse, UserResponse
     - Crear `backend/app/schemas/activity.py`: GenerateRequest (validador grados 2-6, rango 1-12, sin duplicados), CurriculumStandard, VariantOutput, ActivityOutput
     - Crear `backend/app/schemas/classroom.py`: ClassroomCreate (validador grados), ClassroomUpdate, ClassroomResponse
@@ -136,113 +136,113 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Crear `backend/app/schemas/history.py`: HistorySummary
     - _Requisitos: 8.2, 8.3, 5.1_
 
-  - [ ]* 5.3 Escribir test de propiedad para validación de grados
+  - [x]* 5.3 Escribir test de propiedad para validación de grados
     - **Propiedad 11: Validación de rango de grados**
     - **Valida: Requisitos 5.1, 8.3**
 
-  - [ ]* 5.4 Escribir test de propiedad para validación de entrada 422
+  - [ ] 5.4 Escribir test de propiedad para validación de entrada 422
     - **Propiedad 17: Validación de entrada retorna 422**
     - **Valida: Requisitos 8.2**
 
-  - [~] 5.5 Implementar módulo de autenticación
+  - [x] 5.5 Implementar módulo de autenticación
     - Crear `backend/app/auth/security.py`: hash_password (bcrypt), verify_password
     - Crear `backend/app/auth/jwt.py`: create_access_token (JWT con user_id + exp), verify_token (lanza 401 si inválido/expirado)
     - Crear `backend/app/dependencies.py`: get_db (async session), get_current_user (extrae user de JWT)
     - _Requisitos: 7.1, 7.2, 7.3, 7.4_
 
-  - [ ]* 5.6 Escribir tests de propiedad para autenticación
+  - [x]* 5.6 Escribir tests de propiedad para autenticación
     - **Propiedad 14: Contraseña almacenada como hash**
     - **Propiedad 15: Token JWT válido tras login exitoso**
     - **Propiedad 16: Rechazo de tokens inválidos**
     - **Valida: Requisitos 7.1, 7.2, 7.3**
 
-  - [~] 5.7 Implementar endpoints de autenticación
+  - [x] 5.7 Implementar endpoints de autenticación
     - Crear `backend/app/api/auth.py`: POST /auth/register (crea usuario con password hasheada, 201), POST /auth/login (valida credenciales, emite JWT)
     - Crear `backend/app/crud/users.py`: create_user, get_user_by_email
     - _Requisitos: 7.1, 7.2, 8.1_
 
-- [ ] 6. Backend — CRUD de Clases y Materias
-  - [~] 6.1 Implementar CRUD y endpoints de Clases
+- [x] 6. Backend — CRUD de Clases y Materias
+  - [x] 6.1 Implementar CRUD y endpoints de Clases
     - Crear `backend/app/crud/classes.py`: create_class, get_classes_by_user, update_class, delete_class
     - Crear `backend/app/api/classes.py`: POST /classes (valida 2-6 grados), GET /classes, PUT /classes/{id}, DELETE /classes/{id} (conserva historial)
     - Implementar que la eliminación de clase ponga classroom_id=null en actividades asociadas (preserva datos denormalizados)
     - _Requisitos: 5.1, 5.4, 5.5, 8.1_
 
-  - [~] 6.2 Implementar CRUD y endpoints de Materias
+  - [x] 6.2 Implementar CRUD y endpoints de Materias
     - Crear `backend/app/crud/subjects.py`: create_subject, get_subjects_by_user, delete_subject
     - Crear `backend/app/api/subjects.py`: POST /subjects, GET /subjects, DELETE /subjects/{id} (conserva historial poniendo subject_id=null)
     - _Requisitos: 5.2, 5.5, 8.1_
 
-  - [ ]* 6.3 Escribir test de propiedad para preservación del historial ante cambios
+  - [x]* 6.3 Escribir test de propiedad para preservación del historial ante cambios
     - **Propiedad 12: Preservación del historial ante cambios de entidades**
     - **Valida: Requisitos 5.4, 5.5**
 
-  - [ ]* 6.4 Escribir test de propiedad para aislamiento de datos entre docentes
+  - [x]* 6.4 Escribir test de propiedad para aislamiento de datos entre docentes
     - **Propiedad 13: Aislamiento de datos entre docentes**
     - **Valida: Requisitos 7.4, 5.2**
 
-- [ ] 7. Backend — Historial de actividades
-  - [~] 7.1 Implementar CRUD y endpoints de Historial
+- [x] 7. Backend — Historial de actividades
+  - [x] 7.1 Implementar CRUD y endpoints de Historial
     - Crear `backend/app/crud/history.py`: save_activity, list_history (filtros materia/clase, orden fecha desc), get_activity_by_id, search_history (keyword en tema/contenido), delete_activity
     - Crear `backend/app/api/history.py`: GET /history (filtros + búsqueda), GET /history/{id}, DELETE /history/{id}
     - _Requisitos: 4.1, 4.2, 4.3, 4.4, 4.5, 8.1_
 
-  - [ ]* 7.2 Escribir tests de propiedad para historial
+  - [x]* 7.2 Escribir tests de propiedad para historial
     - **Propiedad 7: Round-trip de persistencia de actividades**
     - **Propiedad 8: Ordenamiento del historial por fecha**
     - **Propiedad 9: Búsqueda por keyword en historial**
     - **Propiedad 10: Eliminación permanente de actividades**
     - **Valida: Requisitos 4.1, 4.2, 4.3, 4.4, 4.5**
 
-- [~] 8. Checkpoint - Verificar backend CRUD y autenticación
+- [x] 8. Checkpoint - Verificar backend CRUD y autenticación
   - Ejecutar tests unitarios y de propiedad del backend. Verificar que los endpoints de auth, clases, materias e historial funcionan correctamente. Preguntar al usuario si surgen dudas.
 
-- [ ] 9. Backend — Módulo RAG Curricular
-  - [~] 9.1 Implementar servicio de embeddings
+- [x] 9. Backend — Módulo RAG Curricular
+  - [x] 9.1 Implementar servicio de embeddings
     - Crear `backend/app/rag/embeddings.py`: clase EmbeddingService con métodos generate(text) y generate_batch(texts) usando API externa (configurable vía EMBEDDING_API_KEY)
     - _Requisitos: 3.1, 10.2_
 
-  - [~] 9.2 Implementar retriever de estándares curriculares
+  - [x] 9.2 Implementar retriever de estándares curriculares
     - Crear `backend/app/rag/retriever.py`: clase CurriculumRetriever con método search(query, grades, subject, country, top_k=5, similarity_threshold=0.7)
     - Implementar búsqueda por cosine similarity en pgvector filtrando por grado y materia
     - Retornar lista vacía si ningún resultado supera el umbral
     - Cada resultado incluye: país, grado, materia, texto, score
     - _Requisitos: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ]* 9.3 Escribir tests de propiedad para RAG
+  - [x] 9.3 Escribir tests de propiedad para RAG
     - **Propiedad 4: Corrección de filtros y completitud de resultados RAG**
     - **Propiedad 5: Comportamiento bajo umbral de similitud**
     - **Valida: Requisitos 1.3, 3.2, 3.3, 3.4**
 
 - [ ] 10. Backend — MCP Server y Agente LangGraph
-  - [~] 10.1 Implementar MCP Server embebido
+  - [ ] 10.1 Implementar MCP Server embebido
     - Crear `backend/app/mcp_server/server.py`: definir servidor MCP "aula-multiple-curriculum"
     - Crear `backend/app/mcp_server/tools.py`: herramienta `consultar_estandares(query, grades, subject, country, top_k)` que invoca CurriculumRetriever
     - _Requisitos: 2.2_
 
-  - [~] 10.2 Definir estado del grafo y estructura del agente
+  - [ ] 10.2 Definir estado del grafo y estructura del agente
     - Crear `backend/app/agent/state.py`: TypedDict AgentState con campos de entrada, outputs por nodo, current_node y error
     - Crear `backend/app/agent/graph.py`: build_activity_graph() con StateGraph de 4 nodos secuenciales conectados linealmente al END
     - _Requisitos: 2.1_
 
-  - [~] 10.3 Implementar nodo 1: Análisis Curricular
+  - [ ] 10.3 Implementar nodo 1: Análisis Curricular
     - Crear `backend/app/agent/nodes/curriculum_analysis.py`: invoca herramienta MCP consultar_estandares con topic, grades, subject
     - Manejo de errores: captura excepciones, registra en state.error con nombre de nodo
     - Crear prompt en `backend/app/agent/prompts/curriculum_analysis.txt`
     - _Requisitos: 2.1, 2.2, 2.6, 1.3_
 
-  - [~] 10.4 Implementar nodo 2: Diseño de Actividad
+  - [ ] 10.4 Implementar nodo 2: Diseño de Actividad
     - Crear `backend/app/agent/nodes/activity_design.py`: genera actividad ancla + variantes por grado usando LLM con contexto curricular
     - Implementar timeout de 60s hacia API LLM (asyncio.timeout)
     - Crear prompt en `backend/app/agent/prompts/activity_design.txt`
     - _Requisitos: 2.1, 2.3, 1.1, 1.2, 1.4, 8.5_
 
-  - [~] 10.5 Implementar nodo 3: Adaptación de Recursos
+  - [ ] 10.5 Implementar nodo 3: Adaptación de Recursos
     - Crear `backend/app/agent/nodes/resource_adaptation.py`: adapta instrucciones según recursos disponibles; si no hay recursos, asume básicos (pizarra, cuadernos, lápices)
     - Crear prompt en `backend/app/agent/prompts/resource_adaptation.txt`
     - _Requisitos: 2.1, 2.4, 1.5, 1.6_
 
-  - [~] 10.6 Implementar nodo 4: Formateo de Salida
+  - [ ] 10.6 Implementar nodo 4: Formateo de Salida
     - Crear `backend/app/agent/nodes/output_formatting.py`: estructura la salida final en JSON validado con Pydantic (ActivityOutput)
     - Separar campos: anchor_activity, variantes por grado con estándares alineados
     - _Requisitos: 2.1, 2.5_
@@ -255,21 +255,21 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - **Valida: Requisitos 1.1, 2.1, 2.5, 2.6, 1.4**
 
 - [ ] 11. Backend — Endpoint de generación de actividades
-  - [~] 11.1 Implementar endpoint POST /activities/generate
+  - [ ] 11.1 Implementar endpoint POST /activities/generate
     - Crear `backend/app/api/activities.py`: valida input (2-6 grados), invoca grafo LangGraph, persiste resultado en historial, retorna ActivityOutput
     - Implementar timeout global de 60s hacia servicio LLM con respuesta 504
     - _Requisitos: 1.1, 8.1, 8.3, 8.5_
 
-  - [~] 11.2 Crear router principal y montar la app FastAPI
+  - [ ] 11.2 Crear router principal y montar la app FastAPI
     - Crear `backend/app/api/router.py`: monta todos los sub-routers bajo prefijo /api/v1
     - Crear `backend/app/main.py`: FastAPI app factory con CORS, include router, documentación OpenAPI automática
     - _Requisitos: 8.1, 8.4_
 
-- [~] 12. Checkpoint - Verificar agente y endpoint de generación
+- [ ] 12. Checkpoint - Verificar agente y endpoint de generación
   - Ejecutar tests del módulo agente. Verificar flujo completo: solicitud → grafo 4 nodos → respuesta JSON. Preguntar al usuario si surgen dudas.
 
 - [ ] 13. Script de ingesta de estándares curriculares
-  - [~] 13.1 Implementar script de ingesta offline
+  - [ ] 13.1 Implementar script de ingesta offline
     - Crear `backend/scripts/ingest_curriculum.py`: CLI independiente que procesa PDFs curriculares
     - Implementar: extracción de texto (pdfplumber), chunking (500 chars, overlap 50), generación de embeddings (batch), deduplicación por content_hash (SHA-256), inserción en pgvector con metadatos (país, grado, materia)
     - _Requisitos: 10.1, 10.2, 10.3, 10.4, 10.5_
@@ -281,7 +281,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - **Valida: Requisitos 10.2, 10.3, 10.5**
 
 - [ ] 14. Integración final y wiring
-  - [~] 14.1 Conectar frontend con backend (ajustes de integración)
+  - [ ] 14.1 Conectar frontend con backend (ajustes de integración)
     - Verificar que las URLs del frontend apuntan al backend correctamente
     - Configurar CORS en FastAPI para permitir requests del frontend
     - Ajustar docker-compose.yml para incluir servicio frontend con build y port mapping
@@ -293,7 +293,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Test docker compose up levanta todos los servicios
     - _Requisitos: 9.3, 8.1_
 
-- [~] 15. Checkpoint final - Validar sistema completo
+- [ ] 15. Checkpoint final - Validar sistema completo
   - Ejecutar todos los tests (unitarios, propiedad, integración). Verificar que docker compose up levanta el sistema completo funcional. Preguntar al usuario si surgen dudas.
 
 ## Notes
