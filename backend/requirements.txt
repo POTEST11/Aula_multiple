@@ -16,10 +16,14 @@ pydantic-settings>=2.1.0,<3.0.0
 # Authentication
 python-jose[cryptography]>=3.3.0,<4.0.0
 passlib[bcrypt]>=1.7.4,<2.0.0
+bcrypt>=4.0.0,<4.1.0
 
 # AI / LLM Agent
 langgraph>=0.2.0,<1.0.0
 langchain-core>=0.2.0,<1.0.0
+
+# MCP Server (embedded, in-process)
+mcp>=1.0.0,<2.0.0
 
 # Embeddings (local, CPU)
 sentence-transformers>=2.2.0,<3.0.0

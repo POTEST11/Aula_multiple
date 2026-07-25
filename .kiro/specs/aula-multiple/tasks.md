@@ -214,81 +214,81 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - **Propiedad 5: Comportamiento bajo umbral de similitud**
     - **Valida: Requisitos 1.3, 3.2, 3.3, 3.4**
 
-- [ ] 10. Backend — MCP Server y Agente LangGraph
-  - [ ] 10.1 Implementar MCP Server embebido
+- [x] 10. Backend — MCP Server y Agente LangGraph
+  - [x] 10.1 Implementar MCP Server embebido
     - Crear `backend/app/mcp_server/server.py`: definir servidor MCP "aula-multiple-curriculum"
     - Crear `backend/app/mcp_server/tools.py`: herramienta `consultar_estandares(query, grades, subject, country, top_k)` que invoca CurriculumRetriever
     - _Requisitos: 2.2_
 
-  - [ ] 10.2 Definir estado del grafo y estructura del agente
+  - [x] 10.2 Definir estado del grafo y estructura del agente
     - Crear `backend/app/agent/state.py`: TypedDict AgentState con campos de entrada, outputs por nodo, current_node y error
     - Crear `backend/app/agent/graph.py`: build_activity_graph() con StateGraph de 4 nodos secuenciales conectados linealmente al END
     - _Requisitos: 2.1_
 
-  - [ ] 10.3 Implementar nodo 1: Análisis Curricular
+  - [x] 10.3 Implementar nodo 1: Análisis Curricular
     - Crear `backend/app/agent/nodes/curriculum_analysis.py`: invoca herramienta MCP consultar_estandares con topic, grades, subject
     - Manejo de errores: captura excepciones, registra en state.error con nombre de nodo
     - Crear prompt en `backend/app/agent/prompts/curriculum_analysis.txt`
     - _Requisitos: 2.1, 2.2, 2.6, 1.3_
 
-  - [ ] 10.4 Implementar nodo 2: Diseño de Actividad
+  - [x] 10.4 Implementar nodo 2: Diseño de Actividad
     - Crear `backend/app/agent/nodes/activity_design.py`: genera actividad ancla + variantes por grado usando LLM con contexto curricular
     - Implementar timeout de 60s hacia API LLM (asyncio.timeout)
     - Crear prompt en `backend/app/agent/prompts/activity_design.txt`
     - _Requisitos: 2.1, 2.3, 1.1, 1.2, 1.4, 8.5_
 
-  - [ ] 10.5 Implementar nodo 3: Adaptación de Recursos
+  - [x] 10.5 Implementar nodo 3: Adaptación de Recursos
     - Crear `backend/app/agent/nodes/resource_adaptation.py`: adapta instrucciones según recursos disponibles; si no hay recursos, asume básicos (pizarra, cuadernos, lápices)
     - Crear prompt en `backend/app/agent/prompts/resource_adaptation.txt`
     - _Requisitos: 2.1, 2.4, 1.5, 1.6_
 
-  - [ ] 10.6 Implementar nodo 4: Formateo de Salida
+  - [x] 10.6 Implementar nodo 4: Formateo de Salida
     - Crear `backend/app/agent/nodes/output_formatting.py`: estructura la salida final en JSON validado con Pydantic (ActivityOutput)
     - Separar campos: anchor_activity, variantes por grado con estándares alineados
     - _Requisitos: 2.1, 2.5_
 
-  - [ ]* 10.7 Escribir tests de propiedad para el grafo del agente
+  - [x] 10.7 Escribir tests de propiedad para el grafo del agente
     - **Propiedad 1: Invariante estructural de salida**
     - **Propiedad 2: Orden secuencial de ejecución de nodos**
     - **Propiedad 3: Identificación de nodo en errores**
     - **Propiedad 6: Alineación variante-estándar**
     - **Valida: Requisitos 1.1, 2.1, 2.5, 2.6, 1.4**
 
-- [ ] 11. Backend — Endpoint de generación de actividades
-  - [ ] 11.1 Implementar endpoint POST /activities/generate
+- [x] 11. Backend — Endpoint de generación de actividades
+  - [x] 11.1 Implementar endpoint POST /activities/generate
     - Crear `backend/app/api/activities.py`: valida input (2-6 grados), invoca grafo LangGraph, persiste resultado en historial, retorna ActivityOutput
     - Implementar timeout global de 60s hacia servicio LLM con respuesta 504
     - _Requisitos: 1.1, 8.1, 8.3, 8.5_
 
-  - [ ] 11.2 Crear router principal y montar la app FastAPI
+  - [x] 11.2 Crear router principal y montar la app FastAPI
     - Crear `backend/app/api/router.py`: monta todos los sub-routers bajo prefijo /api/v1
     - Crear `backend/app/main.py`: FastAPI app factory con CORS, include router, documentación OpenAPI automática
     - _Requisitos: 8.1, 8.4_
 
-- [ ] 12. Checkpoint - Verificar agente y endpoint de generación
+- [x] 12. Checkpoint - Verificar agente y endpoint de generación
   - Ejecutar tests del módulo agente. Verificar flujo completo: solicitud → grafo 4 nodos → respuesta JSON. Preguntar al usuario si surgen dudas.
 
 - [ ] 13. Script de ingesta de estándares curriculares
-  - [ ] 13.1 Implementar script de ingesta offline
+  - [x] 13.1 Implementar script de ingesta offline
     - Crear `backend/scripts/ingest_curriculum.py`: CLI independiente que procesa PDFs curriculares
     - Implementar: extracción de texto (pdfplumber), chunking (500 chars, overlap 50), generación de embeddings (batch), deduplicación por content_hash (SHA-256), inserción en pgvector con metadatos (país, grado, materia)
     - _Requisitos: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [ ]* 13.2 Escribir tests de propiedad para ingesta
+  - [x]* 13.2 Escribir tests de propiedad para ingesta
     - **Propiedad 18: Chunking produce fragmentos válidos**
     - **Propiedad 19: Persistencia de embeddings con metadatos**
     - **Propiedad 20: Idempotencia de ingesta**
     - **Valida: Requisitos 10.2, 10.3, 10.5**
 
-- [ ] 14. Integración final y wiring
-  - [ ] 14.1 Conectar frontend con backend (ajustes de integración)
+- [x] 14. Integración final y wiring
+  - [x] 14.1 Conectar frontend con backend (ajustes de integración)
     - Verificar que las URLs del frontend apuntan al backend correctamente
     - Configurar CORS en FastAPI para permitir requests del frontend
     - Ajustar docker-compose.yml para incluir servicio frontend con build y port mapping
     - Verificar flujo completo: registro → login → crear clase/materia → generar actividad → ver historial
     - _Requisitos: 6.1, 6.2, 6.3, 9.3_
 
-  - [ ]* 14.2 Escribir tests de integración end-to-end
+  - [x] 14.2 Escribir tests de integración end-to-end
     - Test flujo completo: registro → login → crear clase → generar actividad → consultar historial → eliminar
     - Test docker compose up levanta todos los servicios
     - _Requisitos: 9.3, 8.1_
