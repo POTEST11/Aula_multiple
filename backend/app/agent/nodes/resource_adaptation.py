@@ -109,7 +109,10 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
 
     variants_adapted: dict[int, str] = {}
     for grade_key, content in raw_variants.items():
-        variants_adapted[int(grade_key)] = content
+        if isinstance(content, dict):
+            variants_adapted[int(grade_key)] = json.dumps(content, ensure_ascii=False)
+        else:
+            variants_adapted[int(grade_key)] = content
 
     return anchor_activity, variants_adapted
 

@@ -227,7 +227,7 @@ async def test_full_e2e_flow():
             return_value=fake_classroom,
         ):
             resp = await client.post(
-                "/api/v1/classes/",
+                "/api/v1/classes",
                 json={"name": "Aula Multigrado 3-4-5", "grades": [3, 4, 5]},
                 headers=headers,
             )

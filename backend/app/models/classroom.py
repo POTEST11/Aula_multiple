@@ -25,3 +25,6 @@ class Classroom(Base):
     # Relationships
     user = relationship("User", back_populates="classrooms")
     activities = relationship("Activity", back_populates="classroom")
+    documents = relationship(
+        "ClassDocument", back_populates="classroom", cascade="all, delete-orphan"
+    )

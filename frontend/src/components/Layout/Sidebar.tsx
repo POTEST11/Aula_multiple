@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { logout } from '../../services/authService';
 import { getClassrooms } from '../../services/classroomService';
+import api from '../../services/api';
 import type { Classroom } from '../../types/classroom';
 import styles from './Sidebar.module.css';
 
@@ -13,11 +14,16 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
     getClassrooms()
       .then((data) => setClassrooms(Array.isArray(data) ? data : []))
       .catch(() => setClassrooms([]));
+
+    api.get<{ name: string }>('/auth/me')
+      .then((res) => setUserName(res.data.name))
+      .catch(() => setUserName('Usuario'));
   }, []);
 
   function handleLogout() {
@@ -39,9 +45,9 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
         {/* User area */}
         <div className={styles.userArea}>
-          <div className={styles.avatar}>M</div>
+          <div className={styles.avatar}>{userName ? userName.charAt(0).toUpperCase() : 'U'}</div>
           <div className={styles.userInfo}>
-            <span className={styles.username}>María González</span>
+            <span className={styles.username}>{userName || 'Usuario'}</span>
           </div>
           <button
             className={styles.settingsBtn}
@@ -70,18 +76,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
         {/* Navigation links */}
         <nav className={styles.nav}>
-          <NavLink
-            to="/dashboard/generate"
-            className={({ isActive }) =>
-              `${styles.navLink} ${isActive ? styles.active : ''}`
-            }
-          >
-            <svg className={styles.navIcon} width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 2L11 7H16L12 10.5L13.5 16L9 12.5L4.5 16L6 10.5L2 7H7L9 2Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
-            </svg>
-            <span>Generar</span>
-          </NavLink>
-
           <NavLink
             to="/dashboard/history"
             className={({ isActive }) =>

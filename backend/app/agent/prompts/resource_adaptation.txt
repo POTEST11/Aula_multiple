@@ -28,16 +28,21 @@ Responde ÚNICAMENTE con un JSON válido con la siguiente estructura, sin texto 
 
 ```json
 {{
-  "anchor_activity": "Descripción completa de la actividad ancla adaptada a los recursos disponibles, incluyendo objetivo, descripción y dinámica de trabajo con los recursos indicados.",
+  "anchor_activity": "Descripción completa de la actividad ancla adaptada a los recursos disponibles, incluyendo objetivo, descripción paso a paso y dinámica de trabajo con los recursos indicados.",
   "variants": {{
-    "<grado_numero>": "Descripción completa de la variante adaptada para este grado, con instrucciones específicas de uso de los recursos disponibles, vocabulario adaptado y ejercicios graduados."
+    "<grado_numero>": {{
+      "content": "Descripción del contenido temático adaptado para este grado, explicando cómo se usan los recursos disponibles.",
+      "instructions": "Instrucciones detalladas paso a paso para el estudiante usando SOLO los recursos disponibles.",
+      "exercises": "Al menos 3 ejercicios concretos que utilicen exclusivamente los recursos disponibles."
+    }}
   }}
 }}
 ```
 
 IMPORTANTE:
 - Las claves de "variants" deben ser los números de grado como strings (ej: "3", "4", "5").
-- Cada variante debe ser un texto completo y autocontenido.
+- Cada variante DEBE ser un objeto JSON con las claves "content", "instructions" y "exercises".
+- Cada campo debe tener contenido detallado y específico (no genérico).
 - Toda referencia a materiales debe corresponder EXCLUSIVAMENTE a los recursos disponibles listados.
 - NO incluyas texto fuera del bloque JSON.
 - NO uses comentarios dentro del JSON.

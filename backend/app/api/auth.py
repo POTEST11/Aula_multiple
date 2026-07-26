@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth.jwt import create_access_token
 from app.auth.security import verify_password
 from app.crud.users import create_user, get_user_by_email
-from app.dependencies import get_db
+from app.dependencies import get_current_user, get_db
 from app.schemas.auth import (
     LoginRequest,
     RegisterRequest,
@@ -60,3 +60,11 @@ async def login(
 
     access_token = create_access_token(user_id=user.id)
     return TokenResponse(access_token=access_token)
+
+
+@router.get("/me", response_model=UserResponse)
+async def get_me(
+    current_user=Depends(get_current_user),
+) -> UserResponse:
+    """Return the currently authenticated user's profile."""
+    return UserResponse.model_validate(current_user)

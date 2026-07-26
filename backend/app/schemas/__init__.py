@@ -8,6 +8,7 @@ from .activity import (
 )
 from .auth import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 from .classroom import ClassroomCreate, ClassroomResponse, ClassroomUpdate
+from .document import DocumentChunk, DocumentResponse
 from .history import HistorySummary
 from .subject import SubjectCreate, SubjectResponse
 
@@ -26,6 +27,9 @@ __all__ = [
     "ClassroomCreate",
     "ClassroomUpdate",
     "ClassroomResponse",
+    # Document
+    "DocumentResponse",
+    "DocumentChunk",
     # Subject
     "SubjectCreate",
     "SubjectResponse",

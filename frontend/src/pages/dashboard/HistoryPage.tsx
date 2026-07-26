@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import type { ActivityOutput } from '../../types/activity';
 import type { Classroom } from '../../types/classroom';
 import type { Subject } from '../../types/subject';
-import { getHistory, deleteActivity } from '../../services/activityService';
+import { getHistory, deleteActivity, getActivity } from '../../services/activityService';
 import { getClassrooms } from '../../services/classroomService';
 import { getSubjects } from '../../services/subjectService';
 import styles from './HistoryPage.module.css';
@@ -103,9 +103,19 @@ export default function HistoryPage() {
     });
   }
 
-  function openDetail(activity: ActivityOutput) {
+  async function openDetail(activity: ActivityOutput) {
     setDetailActivity(activity);
     setExpandedVariants(new Set());
+
+    // Load full detail if variants are missing
+    if (activity.id && (!activity.variants || activity.variants.length === 0)) {
+      try {
+        const detail = await getActivity(activity.id);
+        setDetailActivity(detail);
+      } catch (err) {
+        console.error('Error cargando detalle:', err);
+      }
+    }
   }
 
   function closeDetail() {
@@ -311,7 +321,7 @@ export default function HistoryPage() {
             </div>
 
             {/* Variants by grade */}
-            {detailActivity.variants.length > 0 && (
+            {detailActivity.variants && detailActivity.variants.length > 0 && (
               <div className={styles.modalSection}>
                 <h4 className={styles.modalSectionTitle}>Variantes por grado</h4>
                 {detailActivity.variants.map((variant) => (

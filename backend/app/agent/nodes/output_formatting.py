@@ -19,8 +19,8 @@ def _parse_variant_content(raw_content: str) -> dict[str, str]:
 
     The LLM output from previous nodes structures each variant as a JSON
     string with keys "content", "instructions", and "exercises".
-    If JSON parsing fails, the entire string is used as content with
-    sensible defaults for the other fields.
+    If JSON parsing fails, attempts to split by section headers.
+    As last resort, puts everything in content with empty instructions/exercises.
 
     Args:
         raw_content: The raw variant string (potentially JSON).
@@ -51,11 +51,22 @@ def _parse_variant_content(raw_content: str) -> dict[str, str]:
     except (json.JSONDecodeError, ValueError):
         pass
 
-    # Fallback: use entire string as content
+    # Fallback: use entire text as content — split into thirds if long enough
+    text = raw_content.strip()
+    if len(text) > 300:
+        # Split roughly into content (first half), instructions and exercises
+        third = len(text) // 3
+        return {
+            "content": text[:third].strip(),
+            "instructions": text[third:third*2].strip(),
+            "exercises": text[third*2:].strip(),
+        }
+
+    # Short text: put everything in all fields
     return {
-        "content": raw_content,
-        "instructions": "Seguir las indicaciones de la actividad principal.",
-        "exercises": "Completar los ejercicios descritos en el contenido.",
+        "content": text,
+        "instructions": text,
+        "exercises": text,
     }
 
 

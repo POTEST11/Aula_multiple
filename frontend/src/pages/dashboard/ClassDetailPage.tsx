@@ -5,7 +5,9 @@ import type { ActivityOutput } from '../../types/activity';
 import type { Subject } from '../../types/subject';
 import { getClassrooms } from '../../services/classroomService';
 import { getSubjects } from '../../services/subjectService';
-import { generateActivity, getHistory } from '../../services/activityService';
+import { generateActivity, getHistory, getActivity } from '../../services/activityService';
+import { uploadDocument, getDocuments, deleteDocument } from '../../services/documentService';
+import type { ClassDocument } from '../../services/documentService';
 import styles from './ClassDetailPage.module.css';
 
 export default function ClassDetailPage() {
@@ -20,24 +22,32 @@ export default function ClassDetailPage() {
   const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
   const [expandedVariants, setExpandedVariants] = useState<Record<string, boolean>>({});
   const [inputValue, setInputValue] = useState('');
+  const [selectedSubjectId, setSelectedSubjectId] = useState<number | null>(null);
 
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Document state
+  const [documents, setDocuments] = useState<ClassDocument[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   // Load classroom + history
   const fetchData = useCallback(async () => {
     if (!id) return;
     try {
       setLoading(true);
-      const [classrooms, historyData, subjectsData] = await Promise.all([
+      const [classrooms, historyData, subjectsData, docsData] = await Promise.all([
         getClassrooms(),
         getHistory({ class_id: parseInt(id) }),
         getSubjects(),
+        getDocuments(parseInt(id)),
       ]);
       const found = classrooms.find((c) => c.id === parseInt(id));
       setClassroom(found || null);
-      setHistory(Array.isArray(historyData) ? historyData : []);
+      setHistory(Array.isArray(historyData) ? historyData.map(h => ({ ...h, variants: h.variants || [] })) : []);
       setSubjects(Array.isArray(subjectsData) ? subjectsData : []);
+      setDocuments(Array.isArray(docsData) ? docsData : []);
     } catch {
       setClassroom(null);
       setHistory([]);
@@ -78,18 +88,19 @@ export default function ClassDetailPage() {
     setGenerating(true);
 
     try {
+      const selectedSubject = subjects.find((s) => s.id === selectedSubjectId);
       const result = await generateActivity({
         topic,
         classroom_id: classroom.id,
-        subject_id: subjects.length > 0 ? subjects[0].id : null,
+        subject_id: selectedSubjectId,
         grades: classroom.grades,
-        subject_name: subjects.length > 0 ? subjects[0].name : '',
+        subject_name: selectedSubject ? selectedSubject.name : 'General',
         available_resources: null,
       });
       setHistory((prev) => [result, ...prev]);
-      setExpandedActivity(result.id);
-    } catch {
-      // Error handled silently - user can retry
+      setExpandedActivity(result.id ?? null);
+    } catch (err) {
+      console.error('Error generando actividad:', err);
     } finally {
       setGenerating(false);
     }
@@ -107,6 +118,70 @@ export default function ClassDetailPage() {
   function toggleVariant(activityId: number | null, grade: number) {
     const key = `${activityId}-${grade}`;
     setExpandedVariants((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  // Expand an activity - load full detail if needed
+  async function handleExpandActivity(activityId: number | null) {
+    if (activityId === null) return;
+    setExpandedActivity(activityId);
+
+    // Check if we already have variants loaded for this activity
+    const existing = history.find((h) => h.id === activityId);
+    if (existing && existing.variants && existing.variants.length > 0) return;
+
+    // Load full detail from backend
+    try {
+      const detail = await getActivity(activityId);
+      setHistory((prev) =>
+        prev.map((h) => (h.id === activityId ? { ...h, ...detail } : h))
+      );
+    } catch (err) {
+      console.error('Error cargando detalle de actividad:', err);
+    }
+  }
+
+  // Handle file upload
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !classroom) return;
+    setUploading(true);
+    try {
+      const doc = await uploadDocument(classroom.id, file);
+      setDocuments((prev) => [doc, ...prev]);
+      // Poll for processing completion
+      pollDocumentStatus(doc.id);
+    } catch (err) {
+      console.error('Error subiendo documento:', err);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  }
+
+  function pollDocumentStatus(docId: number) {
+    const interval = setInterval(async () => {
+      if (!classroom) { clearInterval(interval); return; }
+      try {
+        const docs = await getDocuments(classroom.id);
+        const updated = docs.find((d) => d.id === docId);
+        if (updated && (updated.status === 'ready' || updated.status === 'error')) {
+          setDocuments(docs);
+          clearInterval(interval);
+        }
+      } catch {
+        clearInterval(interval);
+      }
+    }, 3000);
+  }
+
+  async function handleDeleteDocument(docId: number) {
+    if (!classroom) return;
+    try {
+      await deleteDocument(classroom.id, docId);
+      setDocuments((prev) => prev.filter((d) => d.id !== docId));
+    } catch (err) {
+      console.error('Error eliminando documento:', err);
+    }
   }
 
   // Format date
@@ -210,13 +285,13 @@ export default function ClassDetailPage() {
                 ) : (
                   <div
                     className={styles.historyItem}
-                    onClick={() => setExpandedActivity(activity.id)}
+                    onClick={() => handleExpandActivity(activity.id)}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        setExpandedActivity(activity.id);
+                        handleExpandActivity(activity.id);
                       }
                     }}
                     aria-label={`Ver actividad: ${activity.topic}`}
@@ -229,7 +304,7 @@ export default function ClassDetailPage() {
                     </div>
                     <div className={styles.historyItemMeta}>
                       {activity.subject_name && <span>{activity.subject_name}</span>}
-                      {activity.variants.length > 0 && (
+                      {activity.variants && activity.variants.length > 0 && (
                         <span> · {activity.variants.length} variante{activity.variants.length > 1 ? 's' : ''}</span>
                       )}
                     </div>
@@ -243,6 +318,17 @@ export default function ClassDetailPage() {
         {/* Chat input */}
         <div className={styles.chatInputArea}>
           <form className={styles.chatForm} onSubmit={handleSend}>
+            <select
+              className={styles.subjectSelect}
+              value={selectedSubjectId ?? ''}
+              onChange={(e) => setSelectedSubjectId(e.target.value ? Number(e.target.value) : null)}
+              aria-label="Seleccionar materia"
+            >
+              <option value="">Materia: General</option>
+              {subjects.map((s) => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </select>
             <textarea
               ref={textareaRef}
               className={styles.chatInput}
@@ -273,23 +359,51 @@ export default function ClassDetailPage() {
         <h3 className={styles.sidePanelTitle}>Contenido multimedia</h3>
 
         <div className={styles.mediaGrid}>
-          {/* Placeholder thumbnails */}
-          <MediaThumbnail label="Guía docente" type="pdf" />
-          <MediaThumbnail label="Fichas grado 3" type="doc" />
-          <MediaThumbnail label="Imágenes tema" type="image" />
-          <MediaThumbnail label="Rúbrica eval." type="pdf" />
+          {documents.map((doc) => (
+            <div key={doc.id} className={styles.mediaThumbnail} title={doc.original_filename}>
+              {doc.status === 'processing' || doc.status === 'pending' ? (
+                <span className={styles.mediaThumbnailLabel}>⏳ {doc.original_filename}</span>
+              ) : doc.status === 'error' ? (
+                <span className={styles.mediaThumbnailLabel} style={{ color: '#e74c3c' }}>❌ {doc.original_filename}</span>
+              ) : (
+                <span className={styles.mediaThumbnailLabel}>✅ {doc.original_filename}</span>
+              )}
+              <button
+                className={styles.iconBtn}
+                onClick={() => handleDeleteDocument(doc.id)}
+                aria-label={`Eliminar ${doc.original_filename}`}
+                style={{ position: 'absolute', top: 4, right: 4, width: 20, height: 20 }}
+              >
+                ×
+              </button>
+            </div>
+          ))}
         </div>
 
-        <button className={styles.uploadBtn} aria-label="Subir archivo">
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.png,.jpg,.jpeg"
+          style={{ display: 'none' }}
+          onChange={handleFileUpload}
+        />
+        <button
+          className={styles.uploadBtn}
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploading}
+          aria-label="Subir archivo"
+        >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          Subir archivo
+          {uploading ? 'Subiendo...' : 'Subir archivo'}
         </button>
 
-        <p className={styles.mediaEmpty}>
-          Los archivos subidos se asociarán a esta clase y podrán usarse como recurso para la generación.
-        </p>
+        {documents.length === 0 && (
+          <p className={styles.mediaEmpty}>
+            Sube PDFs o imágenes para enriquecer la generación de actividades con contexto adicional.
+          </p>
+        )}
       </aside>
     </div>
   );
@@ -330,7 +444,7 @@ function ActivityCard({
       </div>
 
       {/* Variants per grade - collapsible */}
-      {activity.variants.length > 0 && (
+      {activity.variants && activity.variants.length > 0 && (
         <div className={styles.variantsSection}>
           <div className={styles.variantsTitle}>
             Variantes por grado ({activity.variants.length})
@@ -405,43 +519,6 @@ function ActivityCard({
           <path d="M18 15l-6-6-6 6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
-    </div>
-  );
-}
-
-/* Media thumbnail sub-component */
-interface MediaThumbnailProps {
-  label: string;
-  type: 'pdf' | 'doc' | 'image';
-}
-
-function MediaThumbnail({ label, type }: MediaThumbnailProps) {
-  const icons: Record<string, React.ReactNode> = {
-    pdf: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    doc: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M14 2v6h6" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    image: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-        <circle cx="8.5" cy="8.5" r="1.5" />
-        <path d="M21 15l-5-5L5 21" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  };
-
-  return (
-    <div className={styles.mediaThumbnail} role="button" tabIndex={0} aria-label={label}>
-      {icons[type]}
-      <span className={styles.mediaThumbnailLabel}>{label}</span>
     </div>
   );
 }

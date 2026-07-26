@@ -54,7 +54,7 @@ def _build_request_payload(prompt: str, provider: str) -> dict:
         }
     # Default: OpenAI-compatible (groq, openai, etc.)
     return {
-        "model": "llama-3.3-70b-versatile",
+        "model": "llama-3.1-8b-instant",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7,
         "max_tokens": 4096,
@@ -128,10 +128,13 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
     if not raw_variants:
         raise ValueError("Missing 'variants' in LLM response")
 
-    # Convert string keys to int
+    # Convert string keys to int, serialize dicts to JSON strings
     variants_draft: dict[int, str] = {}
     for grade_key, content in raw_variants.items():
-        variants_draft[int(grade_key)] = content
+        if isinstance(content, dict):
+            variants_draft[int(grade_key)] = json.dumps(content, ensure_ascii=False)
+        else:
+            variants_draft[int(grade_key)] = content
 
     return anchor_activity, variants_draft
 

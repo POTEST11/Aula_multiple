@@ -3,6 +3,7 @@
 from typing import Optional, TypedDict
 
 from app.schemas.activity import ActivityOutput, CurriculumStandard
+from app.schemas.document import DocumentChunk
 
 
 class AgentState(TypedDict):
@@ -17,9 +18,11 @@ class AgentState(TypedDict):
     grades: list[int]
     subject: str
     available_resources: list[str]
+    classroom_id: Optional[int]
 
     # Nodo 1 output - Análisis curricular
     curriculum_standards: list[CurriculumStandard]
+    document_context: list[DocumentChunk]
 
     # Nodo 2 output - Diseño de actividad
     anchor_activity_draft: Optional[str]

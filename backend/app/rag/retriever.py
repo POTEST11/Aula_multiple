@@ -29,8 +29,8 @@ class CurriculumRetriever:
         grades: list[int],
         subject: str,
         country: str | None = None,
-        top_k: int = 5,
-        similarity_threshold: float = 0.7,
+        top_k: int = 8,
+        similarity_threshold: float = 0.40,
     ) -> list[CurriculumStandard]:
         """
         Busca estándares curriculares por similitud semántica.
@@ -63,8 +63,13 @@ class CurriculumRetriever:
             similarity_score,
         ).where(
             CurriculumEmbedding.grade.in_(grades),
-            func.lower(CurriculumEmbedding.subject) == func.lower(subject),
         )
+
+        # Apply subject filter only if it's a specific subject (not "General")
+        if subject and subject.lower() != "general":
+            stmt = stmt.where(
+                func.lower(CurriculumEmbedding.subject).contains(func.lower(subject))
+            )
 
         # Filtro opcional por país
         if country is not None:

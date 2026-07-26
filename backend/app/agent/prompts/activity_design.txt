@@ -12,6 +12,12 @@ Tu tarea es generar una actividad ancla y variantes diferenciadas por grado esco
 
 ## Instrucciones
 
+### IMPORTANTE: Validación curricular
+Antes de diseñar la actividad, COMPARA el tema solicitado por el docente con los estándares curriculares proporcionados:
+- Si el tema pedido NO aparece en los estándares del grado correspondiente, DEBES incluir al inicio de la actividad ancla una NOTA DE VALIDACIÓN CURRICULAR que diga: "⚠️ NOTA CURRICULAR: El tema '[tema pedido]' no se encuentra en los DBA oficiales para grado [X]. Según los lineamientos del MEN de Colombia, los temas correspondientes a este grado son: [listar brevemente]. Se generará la actividad basada en los estándares oficiales correspondientes al grado."
+- Si el tema SÍ coincide con los estándares, genera normalmente sin nota.
+- Siempre genera la actividad sobre lo que SÍ está en la malla curricular, NUNCA sobre un tema que no corresponde al grado según los DBA.
+
 ### Actividad Ancla
 Diseña UNA actividad ancla que:
 1. Sea apropiada para todos los grados indicados simultáneamente en un aula multigrado.
@@ -32,9 +38,13 @@ Responde ÚNICAMENTE con un JSON válido con la siguiente estructura, sin texto 
 
 ```json
 {{
-  "anchor_activity": "Descripción completa de la actividad ancla incluyendo objetivo, descripción y dinámica de trabajo.",
+  "anchor_activity": "Descripción completa de la actividad ancla incluyendo objetivo, descripción paso a paso, materiales necesarios, dinámica de trabajo y criterios de evaluación.",
   "variants": {{
-    "<grado_numero>": "Descripción completa de la variante para este grado, incluyendo vocabulario adaptado, instrucciones específicas, ejercicios graduados y referencia explícita al estándar curricular alineado."
+    "<grado_numero>": {{
+      "content": "Descripción del contenido temático adaptado para este grado, explicando los conceptos clave y su relación con el tema.",
+      "instructions": "Instrucciones detalladas paso a paso para el estudiante de este grado, con lenguaje adaptado a su nivel.",
+      "exercises": "Al menos 3 ejercicios concretos graduados en dificultad para este grado, con ejemplos claros."
+    }}
   }}
 }}
 ```
@@ -42,5 +52,8 @@ Responde ÚNICAMENTE con un JSON válido con la siguiente estructura, sin texto 
 IMPORTANTE:
 - Las claves de "variants" deben ser los números de grado como strings (ej: "3", "4", "5").
 - Cada variante debe ser un texto completo y autocontenido.
+- La actividad ancla debe tener AL MENOS 400 palabras con: objetivo, descripción detallada paso a paso, materiales, dinámica de trabajo y criterios de evaluación.
+- Cada variante debe tener AL MENOS 250 palabras con: instrucciones detalladas paso a paso, ejercicios concretos (mínimo 3), vocabulario adaptado y referencia al estándar.
+- Sé detallado y específico. Un docente debe poder ejecutar la actividad directamente sin necesitar más información.
 - NO incluyas texto fuera del bloque JSON.
 - NO uses comentarios dentro del JSON.

@@ -13,9 +13,15 @@ export async function login(data: LoginRequest): Promise<TokenResponse> {
 
 export async function register(data: RegisterRequest): Promise<TokenResponse> {
   if (USE_MOCKS) return mockRegister();
-  const response = await api.post<TokenResponse>('/auth/register', data);
-  localStorage.setItem(TOKEN_KEY, response.data.access_token);
-  return response.data;
+  // Register creates the user, then login to get a token
+  await api.post('/auth/register', data);
+  // Auto-login after successful registration
+  const loginResponse = await api.post<TokenResponse>('/auth/login', {
+    email: data.email,
+    password: data.password,
+  });
+  localStorage.setItem(TOKEN_KEY, loginResponse.data.access_token);
+  return loginResponse.data;
 }
 
 export function logout(): void {

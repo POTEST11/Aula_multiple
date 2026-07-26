@@ -25,14 +25,23 @@ langchain-core>=0.2.0,<1.0.0
 # MCP Server (embedded, in-process)
 mcp>=1.0.0,<2.0.0
 
+# PyTorch CPU-only (much smaller image, no CUDA needed)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.0.0,<3.0.0
+
 # Embeddings (local, CPU)
 sentence-transformers>=2.2.0,<3.0.0
 
 # HTTP client
 httpx>=0.25.0,<1.0.0
 
+# File upload
+python-multipart>=0.0.6,<1.0.0
+
 # Document processing
 pdfplumber>=0.10.0,<1.0.0
+pytesseract>=0.3.10,<1.0.0
+Pillow>=10.0.0,<11.0.0
 
 # Testing
 hypothesis>=6.92.0,<7.0.0

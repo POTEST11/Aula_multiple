@@ -18,7 +18,7 @@ router = APIRouter(prefix="/classes", tags=["classes"])
 
 
 @router.post(
-    "/",
+    "",
     response_model=ClassroomResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -35,7 +35,7 @@ async def create_class(
     return ClassroomResponse.model_validate(classroom)
 
 
-@router.get("/", response_model=list[ClassroomResponse])
+@router.get("", response_model=list[ClassroomResponse])
 async def list_classes(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),

@@ -306,7 +306,7 @@ export default function ClassesPage() {
                 <button
                   type="submit"
                   className={styles.submitBtn}
-                  disabled={!formName.trim() || formGrades.length === 0 || submitting}
+                  disabled={!formName.trim() || formGrades.length < 2 || submitting}
                 >
                   {submitting
                     ? 'Guardando...'
