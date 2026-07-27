@@ -54,7 +54,7 @@ def _build_request_payload(prompt: str, provider: str) -> dict:
         }
     if provider == "openrouter":
         return {
-            "model": "meta-llama/llama-3.1-8b-instruct",
+            "model": "google/gemma-2-9b-it:free",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
             "max_tokens": 4096,
