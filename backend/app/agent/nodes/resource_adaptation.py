@@ -97,7 +97,7 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
     if text.endswith("```"):
         text = text[:-3].rstrip()
 
-    data = json.loads(text)
+    data = json.loads(text, strict=False)
 
     anchor_activity: str = data.get("anchor_activity", "")
     if not anchor_activity:

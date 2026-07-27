@@ -63,12 +63,17 @@
   flex: 1;
   max-width: 420px;
   aspect-ratio: 4 / 3;
-  border: 2px dashed var(--border);
   border-radius: var(--card-radius);
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--surface);
+}
+
+.heroImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .placeholderText {
@@ -135,15 +140,19 @@
 }
 
 .featureIconArea {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   margin: 0 auto 16px;
-  border: 2px dashed var(--border);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface);
+}
+
+.featureIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .iconPlaceholder {
@@ -218,14 +227,19 @@
 .stepIllustration {
   width: 100%;
   max-width: 200px;
-  aspect-ratio: 1;
-  border: 2px dashed var(--border);
+  aspect-ratio: 4 / 3;
   border-radius: var(--card-radius);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
   background: var(--surface);
+}
+
+.stepImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .stepText {

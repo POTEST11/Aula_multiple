@@ -46,7 +46,7 @@ async def verify_classroom_ownership(
         )
 
 # Constants
-MAX_FILE_SIZE = 10_485_760  # 10 MB
+MAX_FILE_SIZE = 20_971_520  # 20 MB
 ALLOWED_MIME_TYPES = {"application/pdf", "image/png", "image/jpeg"}
 EXTENSION_MIME_MAP = {
     ".pdf": "application/pdf",

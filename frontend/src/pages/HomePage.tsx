@@ -20,8 +20,11 @@ export default function HomePage() {
           </Link>
         </div>
         <div className={styles.heroIllustration}>
-          {/* Ilustración: docente frente a grupo multigrado con burbujas de actividades */}
-          <span className={styles.placeholderText}>Ilustración principal</span>
+          <img
+            src="/images/hero-illustration.svg"
+            alt="Docente frente a grupo multigrado con actividades diferenciadas"
+            className={styles.heroImg}
+          />
         </div>
       </section>
 
@@ -31,8 +34,7 @@ export default function HomePage() {
         <div className={styles.featureGrid}>
           <div className={`${styles.featureCard} ${styles.cardGreen}`}>
             <div className={styles.featureIconArea}>
-              {/* Placeholder: ícono/ilustración IA generativa */}
-              <span className={styles.iconPlaceholder}>IA</span>
+              <img src="/images/icon-ai.svg" alt="Generación con IA" className={styles.featureIcon} />
             </div>
             <h3 className={styles.featureTitle}>Generación con IA</h3>
             <p className={styles.featureDesc}>
@@ -43,8 +45,7 @@ export default function HomePage() {
 
           <div className={`${styles.featureCard} ${styles.cardPurple}`}>
             <div className={styles.featureIconArea}>
-              {/* Placeholder: ícono/ilustración estándares */}
-              <span className={styles.iconPlaceholder}>AC</span>
+              <img src="/images/icon-curriculum.svg" alt="Alineación curricular" className={styles.featureIcon} />
             </div>
             <h3 className={styles.featureTitle}>Alineación curricular</h3>
             <p className={styles.featureDesc}>
@@ -55,8 +56,7 @@ export default function HomePage() {
 
           <div className={`${styles.featureCard} ${styles.cardBlue}`}>
             <div className={styles.featureIconArea}>
-              {/* Placeholder: ícono/ilustración aula */}
-              <span className={styles.iconPlaceholder}>GC</span>
+              <img src="/images/icon-classes.svg" alt="Gestión de clases" className={styles.featureIcon} />
             </div>
             <h3 className={styles.featureTitle}>Gestión de clases</h3>
             <p className={styles.featureDesc}>
@@ -67,8 +67,7 @@ export default function HomePage() {
 
           <div className={`${styles.featureCard} ${styles.cardOrange}`}>
             <div className={styles.featureIconArea}>
-              {/* Placeholder: ícono/ilustración archivo */}
-              <span className={styles.iconPlaceholder}>HR</span>
+              <img src="/images/icon-history.svg" alt="Historial reutilizable" className={styles.featureIcon} />
             </div>
             <h3 className={styles.featureTitle}>Historial reutilizable</h3>
             <p className={styles.featureDesc}>
@@ -86,8 +85,7 @@ export default function HomePage() {
           <div className={styles.step}>
             <div className={styles.stepBadge}>1</div>
             <div className={styles.stepIllustration}>
-              {/* Placeholder: ilustración crear clase */}
-              <span className={styles.placeholderText}>Crear clase</span>
+              <img src="/images/step-create.svg" alt="Crear clase" className={styles.stepImg} />
             </div>
             <p className={styles.stepText}>Crea tu clase con los grados</p>
           </div>
@@ -97,8 +95,7 @@ export default function HomePage() {
           <div className={styles.step}>
             <div className={`${styles.stepBadge} ${styles.stepBadge2}`}>2</div>
             <div className={styles.stepIllustration}>
-              {/* Placeholder: ilustración chat */}
-              <span className={styles.placeholderText}>Pedir actividad</span>
+              <img src="/images/step-chat.svg" alt="Pedir actividad" className={styles.stepImg} />
             </div>
             <p className={styles.stepText}>Pide una actividad sobre cualquier tema</p>
           </div>
@@ -108,8 +105,7 @@ export default function HomePage() {
           <div className={styles.step}>
             <div className={`${styles.stepBadge} ${styles.stepBadge3}`}>3</div>
             <div className={styles.stepIllustration}>
-              {/* Placeholder: ilustración resultados */}
-              <span className={styles.placeholderText}>Resultados</span>
+              <img src="/images/step-results.svg" alt="Resultados" className={styles.stepImg} />
             </div>
             <p className={styles.stepText}>Recibe variantes adaptadas por nivel</p>
           </div>
@@ -129,13 +125,7 @@ export default function HomePage() {
 
       {/* Section 5: Footer */}
       <footer className={styles.footer} id="contacto">
-        <div className={styles.footerLinks}>
-          <a href="#" className={styles.footerLink}>Términos</a>
-          <span className={styles.footerSep}>|</span>
-          <a href="#" className={styles.footerLink}>Privacidad</a>
-          <span className={styles.footerSep}>|</span>
-          <a href="#contacto" className={styles.footerLink}>Contacto</a>
-        </div>
+
         <p className={styles.footerCopy}>&copy; 2025 Aula Múltiple</p>
       </footer>
     </div>

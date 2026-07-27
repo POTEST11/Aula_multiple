@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- History/archive icon -->
+  <circle cx="40" cy="40" r="30" fill="#F07C4D" opacity="0.12"/>
+  <!-- Stacked cards -->
+  <rect x="22" y="30" width="36" height="28" rx="4" fill="#F07C4D" opacity="0.2" transform="rotate(-3 40 44)"/>
+  <rect x="22" y="28" width="36" height="28" rx="4" fill="white" stroke="#F07C4D" stroke-width="2"/>
+  <!-- Lines on card -->
+  <rect x="28" y="34" width="20" height="3" rx="1.5" fill="#F07C4D" opacity="0.5"/>
+  <rect x="28" y="40" width="24" height="2.5" rx="1.25" fill="#F07C4D" opacity="0.3"/>
+  <rect x="28" y="45" width="16" height="2.5" rx="1.25" fill="#F07C4D" opacity="0.3"/>
+  <!-- Clock indicator -->
+  <circle cx="54" cy="24" r="10" fill="white" stroke="#7B5EA7" stroke-width="2"/>
+  <line x1="54" y1="24" x2="54" y2="19" stroke="#7B5EA7" stroke-width="2" stroke-linecap="round"/>
+  <line x1="54" y1="24" x2="58" y2="26" stroke="#7B5EA7" stroke-width="2" stroke-linecap="round"/>
+  <!-- Search magnifier -->
+  <circle cx="28" cy="56" r="6" fill="none" stroke="#2BAB6F" stroke-width="2"/>
+  <line x1="32" y1="60" x2="36" y2="64" stroke="#2BAB6F" stroke-width="2" stroke-linecap="round"/>
+</svg>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { logout } from '../../services/authService';
 import { getClassrooms } from '../../services/classroomService';
 import api from '../../services/api';
+import { useTheme } from '../../hooks/useTheme';
 import type { Classroom } from '../../types/classroom';
 import styles from './Sidebar.module.css';
 
@@ -15,6 +16,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
   const [userName, setUserName] = useState<string>('');
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   useEffect(() => {
     getClassrooms()
@@ -50,12 +52,28 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <span className={styles.username}>{userName || 'Usuario'}</span>
           </div>
           <button
+            className={styles.themeToggleBtn}
+            onClick={toggleTheme}
+            aria-label={resolvedTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            title={resolvedTheme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+          >
+            {resolvedTheme === 'dark' ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="5" />
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
+          <button
             className={styles.settingsBtn}
             onClick={handleLogout}
             aria-label="Cerrar sesión"
             title="Cerrar sesión"
           >
-            {/* Settings/logout icon placeholder */}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M6 14H3.33C2.6 14 2 13.4 2 12.67V3.33C2 2.6 2.6 2 3.33 2H6M10.67 11.33L14 8L10.67 4.67M14 8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>

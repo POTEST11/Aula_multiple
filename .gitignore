@@ -101,3 +101,14 @@ logs/
 *.bak
 *.tmp
 *.temp
+
+# Kiro settings (local MCP config)
+.kiro/settings/
+
+# AWS
+.aws-sam/
+samconfig.toml
+
+# Uploads (local dev only)
+backend/uploads/
+uploads/

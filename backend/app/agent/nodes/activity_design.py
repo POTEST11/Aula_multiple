@@ -109,6 +109,8 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
     Raises:
         ValueError: If the response cannot be parsed.
     """
+    import re
+
     # Strip markdown code fences if present
     text = raw_text.strip()
     if text.startswith("```"):
@@ -118,7 +120,13 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
     if text.endswith("```"):
         text = text[:-3].rstrip()
 
-    data = json.loads(text)
+    # Fix invalid escape sequences from LLM output (e.g. \e, \a in Spanish text)
+    text = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', text)
+
+    # Remove trailing commas before } or ] (common LLM JSON error)
+    text = re.sub(r',\s*([}\]])', r'\1', text)
+
+    data = json.loads(text, strict=False)
 
     anchor_activity: str = data.get("anchor_activity", "")
     if not anchor_activity:

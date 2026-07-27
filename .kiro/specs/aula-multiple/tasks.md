@@ -140,7 +140,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - **Propiedad 11: Validación de rango de grados**
     - **Valida: Requisitos 5.1, 8.3**
 
-  - [ ] 5.4 Escribir test de propiedad para validación de entrada 422
+  - [x] 5.4 Escribir test de propiedad para validación de entrada 422
     - **Propiedad 17: Validación de entrada retorna 422**
     - **Valida: Requisitos 8.2**
 
@@ -268,7 +268,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
 - [x] 12. Checkpoint - Verificar agente y endpoint de generación
   - Ejecutar tests del módulo agente. Verificar flujo completo: solicitud → grafo 4 nodos → respuesta JSON. Preguntar al usuario si surgen dudas.
 
-- [ ] 13. Script de ingesta de estándares curriculares
+- [x] 13. Script de ingesta de estándares curriculares
   - [x] 13.1 Implementar script de ingesta offline
     - Crear `backend/scripts/ingest_curriculum.py`: CLI independiente que procesa PDFs curriculares
     - Implementar: extracción de texto (pdfplumber), chunking (500 chars, overlap 50), generación de embeddings (batch), deduplicación por content_hash (SHA-256), inserción en pgvector con metadatos (país, grado, materia)
@@ -293,7 +293,7 @@ Implementación incremental del sistema Aula Múltiple siguiendo el orden: confi
     - Test docker compose up levanta todos los servicios
     - _Requisitos: 9.3, 8.1_
 
-- [ ] 15. Checkpoint final - Validar sistema completo
+- [-] 15. Checkpoint final - Validar sistema completo
   - Ejecutar todos los tests (unitarios, propiedad, integración). Verificar que docker compose up levanta el sistema completo funcional. Preguntar al usuario si surgen dudas.
 
 ## Notes

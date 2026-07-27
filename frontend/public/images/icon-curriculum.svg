@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Document with checkmark -->
+  <circle cx="40" cy="40" r="30" fill="#7B5EA7" opacity="0.12"/>
+  <rect x="24" y="18" width="32" height="44" rx="4" fill="white" stroke="#7B5EA7" stroke-width="2"/>
+  <!-- Text lines -->
+  <rect x="30" y="26" width="20" height="3" rx="1.5" fill="#7B5EA7" opacity="0.4"/>
+  <rect x="30" y="33" width="16" height="3" rx="1.5" fill="#7B5EA7" opacity="0.3"/>
+  <rect x="30" y="40" width="18" height="3" rx="1.5" fill="#7B5EA7" opacity="0.3"/>
+  <rect x="30" y="47" width="14" height="3" rx="1.5" fill="#7B5EA7" opacity="0.3"/>
+  <!-- Checkmark badge -->
+  <circle cx="52" cy="52" r="12" fill="#2BAB6F"/>
+  <path d="M46 52 L50 56 L58 48" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Country flag accent -->
+  <rect x="30" y="54" width="12" height="3" rx="1.5" fill="#F07C4D" opacity="0.5"/>
+</svg>

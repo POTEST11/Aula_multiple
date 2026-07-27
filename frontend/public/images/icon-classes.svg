@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Classroom/group icon -->
+  <circle cx="40" cy="40" r="30" fill="#4A90D9" opacity="0.12"/>
+  <!-- Central person (teacher) -->
+  <circle cx="40" cy="30" r="8" fill="#4A90D9"/>
+  <rect x="33" y="39" width="14" height="16" rx="5" fill="#4A90D9"/>
+  <!-- Left student -->
+  <circle cx="22" cy="42" r="6" fill="#2BAB6F" opacity="0.8"/>
+  <rect x="17" y="49" width="10" height="12" rx="4" fill="#2BAB6F" opacity="0.8"/>
+  <!-- Right student -->
+  <circle cx="58" cy="42" r="6" fill="#F07C4D" opacity="0.8"/>
+  <rect x="53" y="49" width="10" height="12" rx="4" fill="#F07C4D" opacity="0.8"/>
+  <!-- Grade labels -->
+  <rect x="14" y="62" width="16" height="8" rx="4" fill="#2BAB6F" opacity="0.3"/>
+  <text x="22" y="68" text-anchor="middle" fill="#2BAB6F" font-size="6" font-weight="bold">2°-3°</text>
+  <rect x="50" y="62" width="16" height="8" rx="4" fill="#F07C4D" opacity="0.3"/>
+  <text x="58" y="68" text-anchor="middle" fill="#F07C4D" font-size="6" font-weight="bold">4°-5°</text>
+</svg>

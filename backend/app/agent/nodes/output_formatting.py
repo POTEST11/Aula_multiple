@@ -38,15 +38,25 @@ def _parse_variant_content(raw_content: str) -> dict[str, str]:
         if text.endswith("```"):
             text = text[:-3].rstrip()
 
-        data = json.loads(text)
+        data = json.loads(text, strict=False)
 
         if isinstance(data, dict):
+            content = data.get("content", data.get("contenido", ""))
+            instructions = data.get("instructions", data.get("instrucciones", ""))
+            exercises = data.get("exercises", data.get("ejercicios", ""))
+
+            # Convert lists to strings if the LLM returns arrays
+            if isinstance(content, list):
+                content = "\n".join(str(item) if isinstance(item, str) else item.get("text", item.get("exercise", str(item))) for item in content)
+            if isinstance(instructions, list):
+                instructions = "\n".join(str(item) if isinstance(item, str) else item.get("text", item.get("instruction", str(item))) for item in instructions)
+            if isinstance(exercises, list):
+                exercises = "\n".join(str(item) if isinstance(item, str) else item.get("text", item.get("exercise", str(item))) for item in exercises)
+
             return {
-                "content": data.get("content", data.get("contenido", "")),
-                "instructions": data.get(
-                    "instructions", data.get("instrucciones", "")
-                ),
-                "exercises": data.get("exercises", data.get("ejercicios", "")),
+                "content": content or "",
+                "instructions": instructions or "",
+                "exercises": exercises or "",
             }
     except (json.JSONDecodeError, ValueError):
         pass

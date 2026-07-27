@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Brain with circuit pattern -->
+  <circle cx="40" cy="40" r="30" fill="#2BAB6F" opacity="0.12"/>
+  <path d="M30 28 C30 22 35 18 40 18 C45 18 50 22 50 28" stroke="#2BAB6F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M28 35 C22 35 20 40 22 45 C24 50 28 50 30 48" stroke="#2BAB6F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M52 35 C58 35 60 40 58 45 C56 50 52 50 50 48" stroke="#2BAB6F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M33 48 C33 54 36 57 40 57 C44 57 47 54 47 48" stroke="#2BAB6F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Neural connections -->
+  <circle cx="40" cy="35" r="3" fill="#2BAB6F"/>
+  <circle cx="33" cy="42" r="2.5" fill="#2BAB6F" opacity="0.7"/>
+  <circle cx="47" cy="42" r="2.5" fill="#2BAB6F" opacity="0.7"/>
+  <line x1="40" y1="35" x2="33" y2="42" stroke="#2BAB6F" stroke-width="1.5" opacity="0.5"/>
+  <line x1="40" y1="35" x2="47" y2="42" stroke="#2BAB6F" stroke-width="1.5" opacity="0.5"/>
+  <!-- Sparkle -->
+  <path d="M58 20 L60 15 L62 20 L60 25 Z" fill="#F07C4D"/>
+  <path d="M18 52 L20 48 L22 52 L20 56 Z" fill="#7B5EA7" opacity="0.6"/>
+</svg>
