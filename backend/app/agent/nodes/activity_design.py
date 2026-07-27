@@ -54,7 +54,7 @@ def _build_request_payload(prompt: str, provider: str) -> dict:
         }
     if provider == "openrouter":
         return {
-            "model": "google/gemma-2-9b-it:free",
+            "model": "meta-llama/llama-3.3-70b-instruct",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
             "max_tokens": 4096,
@@ -86,6 +86,13 @@ def _get_headers(provider: str, api_key: str) -> dict[str, str]:
             "x-api-key": api_key,
             "anthropic-version": "2023-06-01",
             "content-type": "application/json",
+        }
+    if provider == "openrouter":
+        return {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://aula-multiple.app",
+            "X-Title": "Aula Multiple",
         }
     # OpenAI-compatible (groq, etc.)
     return {
