@@ -52,6 +52,13 @@ def _build_request_payload(prompt: str, provider: str) -> dict:
             "max_tokens": 4096,
             "messages": [{"role": "user", "content": prompt}],
         }
+    if provider == "openrouter":
+        return {
+            "model": "meta-llama/llama-3.1-8b-instruct:free",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": 4096,
+        }
     # Default: OpenAI-compatible (groq, openai, etc.)
     return {
         "model": "llama-3.1-8b-instant",
@@ -66,6 +73,7 @@ def _get_provider_url(provider: str) -> str:
     urls = {
         "groq": "https://api.groq.com/openai/v1/chat/completions",
         "anthropic": "https://api.anthropic.com/v1/messages",
+        "openrouter": "https://openrouter.ai/api/v1/chat/completions",
     }
     # Default to groq-style OpenAI-compatible endpoint
     return urls.get(provider, urls["groq"])
