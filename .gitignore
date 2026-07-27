@@ -112,3 +112,6 @@ samconfig.toml
 # Uploads (local dev only)
 backend/uploads/
 uploads/
+
+# SSH Keys
+*.pem
