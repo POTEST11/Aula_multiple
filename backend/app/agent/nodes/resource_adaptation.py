@@ -39,14 +39,14 @@ def _build_request_payload(prompt: str, provider: str) -> dict:
         }
     if provider == "openrouter":
         return {
-            "model": "meta-llama/llama-3.3-70b-instruct",
+            "model": "meta-llama/llama-3.1-8b-instruct",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
             "max_tokens": 4096,
         }
     # Default: OpenAI-compatible (groq, openai, etc.)
     return {
-        "model": "llama-3.3-70b-versatile",
+        "model": "llama-3.1-8b-instant",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7,
         "max_tokens": 4096,
