@@ -112,6 +112,13 @@ def _parse_llm_output(raw_text: str) -> tuple[str, dict[int, str]]:
     if text.endswith("```"):
         text = text[:-3].rstrip()
 
+    import re
+
+    # Fix invalid escape sequences from LLM output
+    text = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', text)
+    # Remove trailing commas before } or ]
+    text = re.sub(r',\s*([}\]])', r'\1', text)
+
     data = json.loads(text, strict=False)
 
     anchor_activity: str = data.get("anchor_activity", "")
