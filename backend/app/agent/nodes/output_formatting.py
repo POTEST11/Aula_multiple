@@ -159,9 +159,9 @@ async def run(state: AgentState) -> dict:
 
         variant_output = VariantOutput(
             grade=grade_int,
-            content=parsed["content"],
-            instructions=parsed["instructions"],
-            exercises=parsed["exercises"],
+            content=parsed["content"] if isinstance(parsed["content"], str) else json.dumps(parsed["content"], ensure_ascii=False, indent=2),
+            instructions=parsed["instructions"] if isinstance(parsed["instructions"], str) else json.dumps(parsed["instructions"], ensure_ascii=False, indent=2),
+            exercises=parsed["exercises"] if isinstance(parsed["exercises"], str) else json.dumps(parsed["exercises"], ensure_ascii=False, indent=2),
             aligned_standards=aligned_standards,
         )
         variant_outputs.append(variant_output)
