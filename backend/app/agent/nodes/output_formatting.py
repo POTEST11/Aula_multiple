@@ -171,6 +171,12 @@ async def run(state: AgentState) -> dict:
 
     # Build the final ActivityOutput
     try:
+        # Ensure anchor_activity is a string (LLM may return dict)
+        if isinstance(anchor_activity_adapted, dict):
+            anchor_activity_adapted = json.dumps(
+                anchor_activity_adapted, ensure_ascii=False, indent=2
+            )
+
         final_output = ActivityOutput(
             topic=state["topic"],
             grades=state["grades"],
