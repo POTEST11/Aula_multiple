@@ -115,3 +115,6 @@ uploads/
 
 # SSH Keys
 *.pem
+
+aula-multiple-key
+aula-multiple-key.*
