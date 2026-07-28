@@ -205,17 +205,32 @@ async def run(state: AgentState) -> dict:
     headers = _get_headers(provider, api_key)
     payload = _build_request_payload(prompt, provider)
 
+    max_retries = 3
+    response_data = None
+
     try:
         async with asyncio.timeout(settings.LLM_TIMEOUT_SECONDS):
             async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    url,
-                    json=payload,
-                    headers=headers,
-                    timeout=httpx.Timeout(settings.LLM_TIMEOUT_SECONDS),
-                )
-                response.raise_for_status()
-                response_data = response.json()
+                for attempt in range(max_retries):
+                    response = await client.post(
+                        url,
+                        json=payload,
+                        headers=headers,
+                        timeout=httpx.Timeout(settings.LLM_TIMEOUT_SECONDS),
+                    )
+                    response.raise_for_status()
+                    response_data = response.json()
+
+                    # Check if response has content
+                    raw_text = _extract_text_from_response(response_data, provider)
+                    if raw_text and raw_text.strip():
+                        break
+                    logger.warning(
+                        "resource_adaptation: empty response on attempt %d/%d, retrying...",
+                        attempt + 1, max_retries,
+                    )
+                    if attempt < max_retries - 1:
+                        await asyncio.sleep(2 * (attempt + 1))
 
     except TimeoutError:
         error_msg = "resource_adaptation: LLM request timed out after {}s".format(
