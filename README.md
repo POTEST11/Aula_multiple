@@ -50,7 +50,8 @@ El sistema también valida que el tema solicitado corresponda a la malla curricu
 ## Demo
 
 <!-- VIDEO DEMO PLACEHOLDER -->
-[![Video Demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
+[![demo](https://img.youtube.com/vi/dsCg-1HTFEA/0.jpg)](https://www.youtube.com/watch?v=dsCg-1HTFEA)
+
 
 **Deploy:** [http://54.83.132.113](http://54.83.132.113)
 
